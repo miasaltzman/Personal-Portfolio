@@ -7,6 +7,7 @@ import { profile } from "@/content/profile";
 import { MotionProvider } from "@/components/MotionProvider";
 import { SiteNav } from "@/components/nav/SiteNav";
 import { Footer } from "@/components/Footer";
+import { getLinks } from "@/lib/links";
 import "./globals.css";
 
 const instrumentSerif = localFont({
@@ -60,7 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <MotionProvider>
-          <SiteNav />
+          <SiteNav resumeHref={getLinks().resume} />
           <main id="main">{children}</main>
           <Footer />
         </MotionProvider>

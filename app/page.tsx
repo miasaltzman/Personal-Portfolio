@@ -1,8 +1,7 @@
 import { Hero } from "@/components/hero/Hero";
 import { SelectedWork } from "@/components/work/SelectedWork";
-import { About } from "@/components/about/About";
 import { Experience } from "@/components/experience/Experience";
-import { Lab } from "@/components/lab/Lab";
+import { About } from "@/components/about/About";
 import { BeyondAI } from "@/components/beyond/BeyondAI";
 import { Contact } from "@/components/contact/Contact";
 
@@ -11,9 +10,8 @@ export default function Home() {
     <>
       <Hero />
       <SelectedWork />
-      <About />
       <Experience />
-      <Lab />
+      <About />
       <BeyondAI />
       <Contact />
     </>

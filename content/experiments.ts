@@ -1,5 +1,6 @@
 /**
- * LAB — experiments, prototypes & things Mia is curious about.
+ * ALSO EXPLORING — experiments, prototypes & things Mia is curious about.
+ * Shown as a short list at the end of the Selected Work section.
  *
  * Lighter than Selected Work on purpose. Each entry is a quick note, not a
  * case study. Leave `learning` as "" if there's no takeaway yet — the line
@@ -21,9 +22,10 @@ export type Experiment = {
   status: ExperimentStatus;
 };
 
+// Shown as a light list at the end of Selected Work.
 export const labIntro = {
-  heading: "Lab",
-  subtitle: "Experiments, prototypes & things I’m curious about.",
+  heading: "Also exploring",
+  subtitle: "Smaller experiments, prototypes & things I’m curious about.",
 };
 
 export const experiments: Experiment[] = [

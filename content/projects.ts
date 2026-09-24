@@ -30,6 +30,8 @@ export type Project = {
   name: string;
   category: string;
   tagline: string;
+  /** One or two sentences shown on the home page. */
+  description: string;
   status: string;
   role: string;
   tools: string[];
@@ -55,8 +57,7 @@ export type Project = {
 
 export const workIntro = {
   heading: "Selected Work",
-  subtitle:
-    "Products I’m building — and the thinking behind the decisions, not just the screens.",
+  subtitle: "Products I’m building, and the thinking behind the decisions — not just the screens.",
 };
 
 export const projects: Project[] = [
@@ -67,9 +68,11 @@ export const projects: Project[] = [
     slug: "mentr-ai",
     name: "MENTR AI",
     category: "AI career & personal development",
-    tagline: "Personalized direction for people who feel behind — one useful next step at a time.",
+    tagline: "AI-powered career and life mentorship platform",
+    description:
+      "MENTR AI gives students and young professionals personalized direction and one useful next step at a time — so getting 1% better every day feels lightweight, not like homework.",
     status: "In development",
-    role: "Creator — product direction, experience design & prototyping",
+    role: "Founder / Product / AI",
     // TODO(Mia): update with the exact tools you're using.
     tools: ["AI-assisted development", "LLM prompting", "Product design"],
     preview: "mentr",
@@ -172,7 +175,10 @@ export const projects: Project[] = [
     slug: "vita",
     name: "VITA",
     category: "AI & news",
-    tagline: "An AI-oriented news product exploring how staying informed could feel more personal and relevant.",
+    tagline: "AI-oriented news product",
+    // TODO(Mia): replace with VITA's real one-or-two sentence description.
+    description:
+      "VITA explores how AI could make staying informed feel more personal and relevant — a feed organized around what matters to you.",
     // TODO(Mia): set the current status, e.g. "Prototype" or "In development".
     status: "",
     // TODO(Mia): describe your role on VITA.

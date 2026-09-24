@@ -11,7 +11,7 @@ import { useActiveSection } from "./useActiveSection";
 
 const ids = site.nav.map((n) => n.id);
 
-export function SiteNav() {
+export function SiteNav({ resumeHref }: { resumeHref: string | null }) {
   const pathname = usePathname();
   const onHome = pathname === "/";
   const sectionActive = useActiveSection(ids, onHome);
@@ -33,7 +33,7 @@ export function SiteNav() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
         scrolled || open
-          ? `border-b border-line/80 backdrop-blur-md ${open ? "bg-paper" : "bg-paper/85"}`
+          ? `border-b border-line/80 backdrop-blur-md ${open ? "bg-paper" : "bg-paper/92"}`
           : "border-b border-transparent"
       }`}
     >
@@ -46,10 +46,29 @@ export function SiteNav() {
           {profile.name}
         </Link>
 
-        <DesktopLinks active={active} href={href} />
+        <div className="hidden items-center gap-3 md:flex">
+          <DesktopLinks active={active} href={href} />
+          {resumeHref && (
+            <>
+              <span aria-hidden className="h-4 w-px bg-line-strong" />
+              <a
+                href={resumeHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex min-h-10 items-center gap-1 rounded-full px-3 text-[0.9rem] font-medium text-accent"
+              >
+                Resume
+                <span aria-hidden className="transition-transform duration-300 ease-out-soft group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                  ↗
+                </span>
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </>
+          )}
+        </div>
 
         {/* Mobile: current section + compact menu */}
-        <div className="flex items-center gap-1 lg:hidden">
+        <div className="flex items-center gap-1 md:hidden">
           <AnimatePresence mode="wait" initial={false}>
             {activeLabel && !open && (
               <m.span
@@ -65,7 +84,7 @@ export function SiteNav() {
               </m.span>
             )}
           </AnimatePresence>
-          <MobileMenu open={open} setOpen={setOpen} active={active} href={href} />
+          <MobileMenu open={open} setOpen={setOpen} active={active} href={href} resumeHref={resumeHref} />
         </div>
       </nav>
     </header>
@@ -102,7 +121,7 @@ function DesktopLinks({
   }, [measure]);
 
   return (
-    <ul ref={listRef} className="relative hidden items-center gap-1 lg:flex">
+    <ul ref={listRef} className="relative flex items-center gap-0.5">
       {site.nav.map((item) => {
         const isActive = active === item.id;
         return (
@@ -137,11 +156,13 @@ function MobileMenu({
   setOpen,
   active,
   href,
+  resumeHref,
 }: {
   open: boolean;
   setOpen: (v: boolean) => void;
   active: string | null;
   href: (id: string) => string;
+  resumeHref: string | null;
 }) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -197,7 +218,7 @@ function MobileMenu({
           <m.div
             ref={panelRef}
             id="mobile-menu"
-            className="absolute inset-x-0 top-16 border-b border-line bg-paper shadow-[0_24px_48px_-24px_rgba(20,20,19,0.18)] backdrop-blur-md lg:hidden"
+            className="absolute inset-x-0 top-16 border-b border-line bg-paper shadow-[0_24px_48px_-24px_rgba(20,20,19,0.18)] backdrop-blur-md md:hidden"
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
@@ -225,6 +246,20 @@ function MobileMenu({
                   </li>
                 );
               })}
+              {resumeHref && (
+                <li className="pt-4">
+                  <a
+                    href={resumeHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex min-h-12 items-center gap-2 rounded-full border border-ink px-5 text-[1rem] font-medium"
+                  >
+                    Resume <span aria-hidden>↗</span>
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </li>
+              )}
             </ul>
           </m.div>
         )}

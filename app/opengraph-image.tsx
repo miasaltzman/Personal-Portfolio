@@ -8,7 +8,6 @@ export const contentType = "image/png";
 
 // Social preview card — typeset from content/profile.ts.
 export default function OpengraphImage() {
-  const statement = profile.hero.statement.replace(/[{}]/g, "");
   return new ImageResponse(
     (
       <div
@@ -25,14 +24,15 @@ export default function OpengraphImage() {
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 24, letterSpacing: 5, textTransform: "uppercase" }}>
           <div style={{ width: 14, height: 14, borderRadius: 7, background: "#2a44d6" }} />
-          {profile.name}
+          Portfolio
         </div>
-        <div style={{ fontSize: 84, lineHeight: 1.02, letterSpacing: -3, maxWidth: 980 }}>{statement}</div>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 24, color: "#5f5c55" }}>
-          <span>
-            {profile.program} · {profile.school}
-          </span>
-          <span style={{ color: "#2a44d6" }}>AI × Product × People</span>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ fontSize: 132, lineHeight: 0.92, letterSpacing: -6 }}>{profile.name}</div>
+          <div style={{ marginTop: 36, fontSize: 40, letterSpacing: -1 }}>{profile.roleLine}</div>
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 26, color: "#5f5c55" }}>
+          <span>{profile.school}</span>
+          <span style={{ color: "#2a44d6" }}>{profile.location}</span>
         </div>
       </div>
     ),

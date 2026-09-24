@@ -1,18 +1,10 @@
-import fs from "node:fs";
-import path from "node:path";
 import { contact } from "@/content/contact";
+import { getLinks } from "@/lib/links";
 import { Reveal } from "@/components/ui/Reveal";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { AccentText } from "@/components/ui/AccentText";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { CopyButton } from "./CopyButton";
-
-/** True once the résumé PDF has been added to /public. Checked at build time. */
-function resumeExists() {
-  try {
-    return fs.existsSync(path.join(process.cwd(), "public", contact.resume.file));
-  } catch {
-    return false;
-  }
-}
 
 type Row = {
   label: string;
@@ -23,39 +15,40 @@ type Row = {
   extra?: React.ReactNode;
 };
 
+/** The finale: what Mia is open to, and every way to reach her. */
 export function Contact() {
-  const hasResume = resumeExists();
+  const links = getLinks();
 
   const rows: Row[] = [
     {
       label: "Email",
       value: contact.email,
-      href: `mailto:${contact.email}`,
+      href: links.email,
       action: "Send an email",
       extra: <CopyButton value={contact.email} label="Copy email address" />,
     },
     {
       label: "Phone",
       value: contact.phone.display,
-      href: `tel:${contact.phone.tel}`,
+      href: links.phone,
       action: "Call",
     },
     {
       label: "LinkedIn",
-      value: contact.linkedin.url ? contact.linkedin.display : "Link coming soon",
-      href: contact.linkedin.url || undefined,
+      value: links.linkedin ? contact.linkedin.display : "Link coming soon",
+      href: links.linkedin ?? undefined,
       external: true,
       action: "Open LinkedIn profile in a new tab",
     },
     {
-      label: "Résumé",
-      value: hasResume ? contact.resume.display : "PDF coming soon",
-      href: hasResume ? contact.resume.file : undefined,
+      label: "Resume",
+      value: links.resume ? contact.resume.display : "PDF coming soon",
+      href: links.resume ?? undefined,
       external: true,
       action: "Open résumé PDF in a new tab",
-      extra: hasResume ? (
+      extra: links.resume ? (
         <a
-          href={contact.resume.file}
+          href={links.resume}
           download
           className="relative z-10 inline-flex h-11 items-center rounded-full border border-white/20 px-4 text-[0.82rem] text-white/80 transition-colors hover:border-white/60 hover:text-white"
         >
@@ -65,47 +58,52 @@ export function Contact() {
     },
   ];
 
-  if (contact.showGithub && contact.github) {
+  if (links.github) {
     rows.push({
       label: "GitHub",
-      value: contact.github.replace(/^https?:\/\/(www\.)?/, ""),
-      href: contact.github,
+      value: links.github.replace(/^https?:\/\/(www\.)?/, ""),
+      href: links.github,
       external: true,
       action: "Open GitHub profile in a new tab",
     });
   }
 
   return (
-    <section id="contact" aria-labelledby="contact-title" className="relative overflow-hidden bg-ink text-paper">
+    <section id="contact" aria-labelledby="contact-title" className="relative bg-ink text-paper">
       <div className="shell section-pad">
-        <Reveal as="header" className="grid gap-6 md:grid-cols-12 md:gap-8">
-          <p className="eyebrow !text-white/55 md:col-span-3 md:pt-6">
-            <span className="tabular-nums">06</span>
-            <span aria-hidden className="mx-2 opacity-50">
-              /
+        <SectionHeader
+          index="05"
+          label="Let’s Connect"
+          id="contact-title"
+          tone="dark"
+          title={
+            <span className="block text-[clamp(3.2rem,1.4rem+7vw,8rem)] leading-[0.92] tracking-[-0.05em]">
+              <AccentText text={contact.heading} accentClassName="text-accent-light" />
             </span>
-            {contact.eyebrow}
-          </p>
-          <div className="md:col-span-9">
-            <h2 id="contact-title" className="display-xl">
-              {contact.heading}
-            </h2>
-            <p className="lede mt-6 max-w-[30rem] text-white/65">{contact.line}</p>
-          </div>
-        </Reveal>
+          }
+        />
 
-        <ul className="mt-14 grid gap-3 sm:mt-20 md:grid-cols-12">
-          {rows.map((row, i) => (
-            <Reveal
-              as="li"
-              key={row.label}
-              delay={i * 0.05}
-              className="md:col-span-9 md:col-start-4"
-            >
-              <ContactRow row={row} />
-            </Reveal>
-          ))}
-        </ul>
+        <div className="mt-20 grid grid-cols-1 gap-16 sm:mt-28 lg:grid-cols-12 lg:gap-x-12">
+          <Reveal className="lg:col-span-4">
+            <h3 className="eyebrow !text-white/55">Open to</h3>
+            <ul className="mt-6 space-y-4">
+              {contact.openTo.map((item) => (
+                <li key={item} className="flex items-baseline gap-4 text-[1.2rem] leading-snug tracking-[-0.015em] text-white/90 sm:text-[1.35rem]">
+                  <span aria-hidden className="h-px w-5 shrink-0 translate-y-[-0.3em] bg-accent-light" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <ul className="grid grid-cols-1 gap-3 lg:col-span-7 lg:col-start-6">
+            {rows.map((row, i) => (
+              <Reveal as="li" key={row.label} delay={i * 0.05}>
+                <ContactRow row={row} />
+              </Reveal>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

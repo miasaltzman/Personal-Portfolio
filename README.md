@@ -1,7 +1,8 @@
 # Mia Saltzman — Portfolio
 
-Personal portfolio for Mia Saltzman, Artificial Intelligence student at San Diego State University.
-**AI × Product × People.**
+Personal portfolio for Mia Saltzman, AI Student at San Diego State University and aspiring AI product manager.
+
+The homepage runs: **Hero → 01 Selected Work → 02 Experience → 03 About → 04 Beyond AI → 05 Let’s Connect**, and each project has its own case study page at `/work/<slug>`.
 
 Built with Next.js, React, TypeScript, Tailwind CSS and Motion.
 
@@ -13,13 +14,13 @@ Nearly everything you'd want to change is in the **`content/`** folder. Each fil
 
 ```
 content/
-  profile.ts         ← your name, headshot, hero text, bio, "currently building"
+  profile.ts         ← name, title, headshot, hero intro, "currently building", About
   projects.ts        ← Selected Work + case study pages (MENTR AI, VITA)
+  experiments.ts     ← the "Also exploring" list at the end of Selected Work
   experience.ts      ← Experience section
-  experiments.ts     ← Lab section
-  personalFacts.ts   ← Beyond AI moments
-  contact.ts         ← phone, email, LinkedIn, résumé, GitHub
-  site.ts            ← page title, description, nav, footer
+  personalFacts.ts   ← Beyond AI facts
+  contact.ts         ← email, phone, LinkedIn, résumé, GitHub, "Open to" list
+  site.ts            ← page title, description, navigation
 ```
 
 **The golden rule:** only change text *between the quotes*. Keep the quotes, commas and brackets where they are.
@@ -30,19 +31,26 @@ content/
 2. Either name it **`mia-headshot.jpg`** (replacing the placeholder that's there now), or open `content/profile.ts` and change `headshot:` to your new file name.
 3. If the crop cuts off your head or hair, change `headshotPosition` in the same file. `"50% 22%"` means "center horizontally, focus near the top". A smaller second number shows more of the top of the photo.
 
-Every portrait on the site reads from that one setting.
+Every portrait on the site reads from that one setting. Any size or shape of photo works: the frame crops it, and nothing gets stretched.
+
+Want a second photo in the About section? Put it in `public/images/` and set `about.image` in `content/profile.ts` (e.g. `"/images/mia-about.jpg"`). Leave it `""` for none.
 
 ### 2. Bio
 
 In `content/profile.ts`:
-- `hero`: the big statement and the text under it. Put `{braces}` around one word to set it in the blue italic accent.
+- `title`: your professional title ("AI Student at San Diego State University"), used in the page title and social previews.
+- `roleLine` and `school`: the two lines under your name in the hero.
+- `hero.greeting` and `hero.intro`: "Hi, I’m Mia." and the short intro. Keep it to two sentences.
+- `status`: the "● Currently building MENTR AI →" link. Set `show: false` to hide it.
+- `about.heading`: the large line in About. Put `{braces}` around one word to set it in the blue italic accent.
 - `about.paragraphs`: each item in quotes is one paragraph.
 - `about.details` and `interests`: the short facts and the "Thinking about" list.
-- `status`: the "● Currently building…" line under the hero buttons. Set `show: false` to hide it.
 
 ### 3. Projects
 
 In `content/projects.ts`, each project gets its own section on the home page and its own case study page at `/work/<slug>`.
+- The **first** project in the list is the big featured project (MENTR AI). Reorder the list to change that.
+- `tagline`, `description` and `role` are what shows on the home page.
 - Change `status` (e.g. `"In development"`, `"Prototype"`) to update the label everywhere.
 - Case study sections left empty (`[]` or `""`) are **hidden automatically**, so you can fill in VITA bit by bit.
 - To add screenshots, put images in `public/images/projects/` and list them under `gallery` (there's an example in VITA).
@@ -50,11 +58,11 @@ In `content/projects.ts`, each project gets its own section on the home page and
 
 ### 4. Experience
 
-In `content/experience.ts`, copy a `{ … }` block to add a role. `period` is optional (leave it `""` to hide it).
+In `content/experience.ts`, copy a `{ … }` block to add a role. Add dates in `period`, e.g. `"2025 — Present"`. While a period is empty, the site shows a quiet "Dates TBA".
 
 ### 5. Contact information
 
-In `content/contact.ts`, change `phone` (both `display` and the digits-only `tel`) and `email`.
+In `content/contact.ts`, change `email` and `phone` (both `display` and the digits-only `tel`). The `openTo` list is the "Open to" column in the contact section.
 
 ### 6. LinkedIn
 
@@ -65,11 +73,11 @@ linkedin: {
   url: "https://www.linkedin.com/in/your-name",
 ```
 
-Until then, the row shows quietly as "Link coming soon".
+Until then, LinkedIn shows as a quiet "soon" placeholder in the hero and "Link coming soon" in the contact section. Once you add the URL, it becomes a link everywhere.
 
 ### 7. Résumé
 
-Save your résumé as a PDF at **`public/resume/mia-saltzman-resume.pdf`**. That's it: the Résumé row turns on by itself (open in new tab + download). To use a different file name, change `resume.file` in `content/contact.ts`.
+Save your résumé as a PDF at **`public/resume/mia-saltzman-resume.pdf`**. That's it: the hero Resume button, a "Resume ↗" link in the navigation, the contact row (open + download) and the footer link all turn on by themselves. To use a different file name, change `resume.file` in `content/contact.ts`.
 
 ### 8. GitHub
 
@@ -82,11 +90,18 @@ showGithub: true,
 
 ### 9. Beyond AI facts
 
-In `content/personalFacts.ts`, change the `label` (always visible) or `reveal` (shown after a tap) for each moment. Set `show: false` to hide one. The Lab entries are in `content/experiments.ts`. Status can be `"Exploring"`, `"Prototype"`, `"Building"` or `"Archived"`.
+In `content/personalFacts.ts`, each fact has:
+- `label`: the clickable label, e.g. "Daily ritual". It's the only thing visible until someone opens it.
+- `title`, `reveal` and optional `detail`: what appears once it's open.
+- `show: false` hides a fact.
+
+Only one fact is open at a time. On phones, facts unfold under their label; on desktop they open in a panel on the right.
+
+The smaller experiments at the end of Selected Work ("Also exploring") live in `content/experiments.ts`. Status can be `"Exploring"`, `"Prototype"`, `"Building"` or `"Archived"`.
 
 ### Page title & social preview
 
-`content/site.ts` holds the browser title, the description search engines show, and `url`. Set `url` to your real domain once the site is live so link previews work. The social preview image is generated automatically from your name and hero statement.
+`content/site.ts` holds the browser title, the description search engines show, and `url`. Set `url` to your real domain once the site is live so link previews work. The social preview image is generated automatically from your name and title.
 
 ---
 
@@ -125,7 +140,7 @@ So the everyday workflow is: edit a file in `content/` → preview with `npm run
 
 ```
 app/                 pages: home (page.tsx), case studies (work/[slug]), metadata
-components/          one folder per section (hero, work, about, experience, lab, beyond, contact)
+components/          one folder per section (hero, work, experience, about, beyond, contact)
 components/previews  the interactive MENTR AI and VITA product previews
 content/             ← all editable text and settings
 public/              images, résumé PDF

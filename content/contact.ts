@@ -1,13 +1,13 @@
 /**
- * CONTACT — phone, email, LinkedIn, résumé, GitHub.
+ * CONTACT — email, phone, LinkedIn, résumé, GitHub.
  *
- * The "Let's Connect" section is built entirely from this file.
+ * Used by the hero quick links, the navigation "Resume" link,
+ * the "Let's connect" section and the footer.
  */
 
 type Contact = {
-  eyebrow: string;
   heading: string;
-  line: string;
+  openTo: string[];
   phone: { display: string; tel: string };
   email: string;
   linkedin: { url: string; display: string };
@@ -17,10 +17,18 @@ type Contact = {
 };
 
 export const contact: Contact = {
-  eyebrow: "Get in touch",
-  heading: "Let’s Connect",
-  // Keep this line exactly as written unless you want to change the message.
-  line: "Open to projects, ideas, collaborations, and thoughtful conversations.",
+  // Wrap one word in {braces} to set it in the italic accent.
+  heading: "Let’s {connect}.",
+
+  // The "OPEN TO" list in the contact section.
+  openTo: [
+    "Internships",
+    "AI & product projects",
+    "Interesting ideas",
+    "Meeting people building cool things",
+  ],
+
+  email: "miasaltzman.ca@gmail.com",
 
   phone: {
     display: "310-591-6763",
@@ -28,13 +36,11 @@ export const contact: Contact = {
     tel: "3105916763",
   },
 
-  email: "miasaltzman.ca@gmail.com",
-
   /**
    * LINKEDIN
    * Paste your full profile URL between the quotes, e.g.
    *   url: "https://www.linkedin.com/in/your-name",
-   * While it is empty the row shows quietly as "Link coming soon".
+   * While it is empty, LinkedIn links show quietly as "coming soon".
    */
   linkedin: {
     url: "", // ← TODO: add LinkedIn URL
@@ -46,7 +52,7 @@ export const contact: Contact = {
    * 1. Save your résumé as a PDF.
    * 2. Put it at:  public/resume/mia-saltzman-resume.pdf
    *    (or change `file` below to match your file name).
-   * The Résumé row switches on automatically once the file exists.
+   * Every Résumé link on the site switches on automatically once the file exists.
    */
   resume: {
     file: "/resume/mia-saltzman-resume.pdf",

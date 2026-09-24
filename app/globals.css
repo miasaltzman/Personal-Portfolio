@@ -17,9 +17,11 @@
   --color-accent: #2a44d6;
   --color-accent-deep: #1e33ad;
   --color-accent-soft: #e5e9fb;
+  --color-accent-light: #8fa3ff; /* cobalt, lifted for dark backgrounds */
 
   /* Illustration-only tones for the Beyond AI moments */
-  --color-matcha: #8fa86a;
+  --color-coffee: #5a3b29;
+  --color-crema: #c79b6d;
   --color-oat: #efe6d4;
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
@@ -126,7 +128,7 @@
 
 /* Section vertical rhythm */
 @utility section-pad {
-  padding-block: clamp(5rem, 3rem + 7vw, 10rem);
+  padding-block: clamp(7rem, 4rem + 8vw, 12.5rem);
 }
 
 /* ------------------------------------------------------------------ */
@@ -160,16 +162,25 @@
   animation: hero-in 0.8s var(--ease-out-soft) both;
 }
 
-@keyframes draw-in {
-  from {
-    stroke-dashoffset: 1;
+/* The "currently building" dot: a slow, quiet pulse. */
+@keyframes status-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.45;
   }
-  to {
-    stroke-dashoffset: 0;
+  70%,
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
   }
 }
 
-.draw-in {
-  stroke-dasharray: 1;
-  animation: draw-in 1.2s var(--ease-out-soft) both;
+.status-pulse {
+  animation: status-pulse 2.6s var(--ease-out-soft) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-pulse {
+    display: none;
+  }
 }

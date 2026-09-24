@@ -2,7 +2,10 @@
  * EXPERIENCE — roles shown in the Experience section, in display order.
  *
  * To add a role, copy one { … } block, paste it where you want it in the list,
- * and edit the text. `period` is optional — leave it "" to hide it.
+ * and edit the text.
+ *
+ * TODO(Mia): add dates to `period`, e.g. "2025 — Present".
+ * While a period is empty, the site shows a quiet "Dates TBA" placeholder.
  */
 
 export type Experience = {

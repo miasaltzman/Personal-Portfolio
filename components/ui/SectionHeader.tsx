@@ -1,5 +1,9 @@
 import { Reveal } from "./Reveal";
 
+/**
+ * "01 — Selected Work" style section opener: a numbered label on a hairline,
+ * then a large heading with an optional short line beside it.
+ */
 export function SectionHeader({
   index,
   label,
@@ -12,29 +16,37 @@ export function SectionHeader({
   index: string;
   label: string;
   title: React.ReactNode;
-  subtitle?: string;
+  subtitle?: React.ReactNode;
   aside?: React.ReactNode;
   id?: string;
   tone?: "light" | "dark";
 }) {
-  const muted = tone === "dark" ? "text-white/60" : "text-muted";
+  const dark = tone === "dark";
   return (
-    <Reveal as="header" className="grid gap-6 md:grid-cols-12 md:gap-8">
-      <p className={`eyebrow md:col-span-3 md:pt-3 ${tone === "dark" ? "!text-white/55" : ""}`}>
-        <span className="tabular-nums">{index}</span>
-        <span aria-hidden className="mx-2 opacity-50">
-          /
-        </span>
-        {label}
-      </p>
-      <div className="md:col-span-9">
-        <div className="flex items-start gap-4">
+    <Reveal as="header">
+      <div className="flex items-center gap-5">
+        <p className={`eyebrow shrink-0 ${dark ? "!text-white/55" : "!text-ink"}`}>
+          <span className="tabular-nums">{index}</span>
+          <span aria-hidden className="mx-2.5">
+            —
+          </span>
+          {label}
+        </p>
+        <span aria-hidden className={`h-px flex-1 ${dark ? "bg-white/15" : "bg-line-strong"}`} />
+      </div>
+
+      <div className="mt-10 grid grid-cols-1 items-end gap-6 sm:mt-14 lg:grid-cols-12 lg:gap-x-12">
+        <div className="flex items-start gap-3 lg:col-span-7">
           <h2 id={id} className="display-lg">
             {title}
           </h2>
           {aside}
         </div>
-        {subtitle && <p className={`lede mt-5 max-w-[34rem] ${muted}`}>{subtitle}</p>}
+        {subtitle && (
+          <div className={`lede max-w-[28rem] lg:col-span-5 lg:col-start-8 lg:justify-self-end ${dark ? "text-white/65" : "text-muted"}`}>
+            {subtitle}
+          </div>
+        )}
       </div>
     </Reveal>
   );
