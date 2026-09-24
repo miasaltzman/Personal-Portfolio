@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* One accent (cobalt). Everything else is warm neutrals.              */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-paper: #f6f4ef;
+  --color-paper-2: #efece5;
+  --color-card: #fbfaf7;
+  --color-ink: #141413;
+  --color-ink-2: #2a2926;
+  --color-muted: #5f5c55;
+  --color-faint: #8a867d;
+  --color-line: #e2ded5;
+  --color-line-strong: #cfcac0;
+  --color-accent: #2a44d6;
+  --color-accent-deep: #1e33ad;
+  --color-accent-soft: #e5e9fb;
+
+  /* Illustration-only tones for the Beyond AI moments */
+  --color-matcha: #8fa86a;
+  --color-oat: #efe6d4;
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --breakpoint-xs: 25rem;
+}
+
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-paper);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout + type utilities                                             */
+/* ------------------------------------------------------------------ */
+@utility shell {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4.5vw, 3.5rem);
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+@utility display-xl {
+  font-size: clamp(2.35rem, 1.2rem + 5.4vw, 6.25rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+@utility display-lg {
+  font-size: clamp(2.1rem, 1.3rem + 3.8vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+@utility display-md {
+  font-size: clamp(1.6rem, 1.15rem + 1.9vw, 2.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+@utility lede {
+  font-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+@utility serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Section vertical rhythm */
+@utility section-pad {
+  padding-block: clamp(5rem, 3rem + 7vw, 10rem);
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced motion: keep every state change, drop the movement.         */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero entrance — CSS only, so text never waits on JavaScript.         */
+/* ------------------------------------------------------------------ */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-in {
+  animation: hero-in 0.8s var(--ease-out-soft) both;
+}
+
+@keyframes draw-in {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.draw-in {
+  stroke-dasharray: 1;
+  animation: draw-in 1.2s var(--ease-out-soft) both;
+}
